@@ -1,4 +1,4 @@
-// import "./App.css";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AllTasksPage from "./pages/all-tasks-page/all-tasks-page";
 import TaskDetailedInfoPage from "./pages/task-detailed-info-page/task-detailed-info-page";

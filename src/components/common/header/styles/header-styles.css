@@ -1,0 +1,11 @@
+.button {
+  @apply rounded-[5px] px-[20px] py-[10px] cursor-pointer;
+}
+
+.button-add-employee {
+  @apply text-[#212529] border-1 border-[#8338EC];
+}
+
+.button-add-new-task {
+  @apply text-[#FFFFFF] border-1 bg-[#8338EC] border-1 border-[#8338EC];
+}

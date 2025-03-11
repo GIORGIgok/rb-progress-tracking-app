@@ -1,3 +1,9 @@
 export default function AllTasksPage() {
-  return <h1 className="text-3xl font-bold">All Tasks Page</h1>;
+  return (
+    <main className="px-[120px]">
+      <h2 className="text-[34px] font-[FiraGO] font-bold text-[#212529]">
+        დავალებების გვერდი
+      </h2>
+    </main>
+  );
 }
