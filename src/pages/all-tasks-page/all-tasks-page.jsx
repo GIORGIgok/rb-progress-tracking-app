@@ -25,6 +25,32 @@ export default function AllTasksPage() {
           <ArrowDownSvg className="group-hover:fill-[#8338EC]" />
         </div>
       </div>
+
+      <section className="w-full mt-[79px] flex gap-[52px]">
+        <div className="w-[381px] h-[54px]  bg-[#F7BC30] rounded-[10px] flex justify-center items-center">
+          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
+            დასაწყები
+          </h3>
+        </div>
+
+        <div className="w-[381px] h-[54px]  bg-[#FB5607] rounded-[10px] flex justify-center items-center">
+          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
+            პროგრესში
+          </h3>
+        </div>
+
+        <div className="w-[381px] h-[54px]  bg-[#FF006E] rounded-[10px] flex justify-center items-center">
+          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
+            მზად ტესტირებისთვის
+          </h3>
+        </div>
+
+        <div className="w-[381px] h-[54px]  bg-[#3A86FF] rounded-[10px] flex justify-center items-center">
+          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
+            დასრულებული
+          </h3>
+        </div>
+      </section>
     </main>
   );
 }
