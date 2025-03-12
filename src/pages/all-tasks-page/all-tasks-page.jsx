@@ -1,8 +1,8 @@
 import { ArrowDownSvg } from "../../assets/svg/arrow-down";
-import FinishedTasksBlock from "../../components/tasks-segregation-section/finished-tasks/finished-tasks-block";
-import InProgressTasksBlock from "../../components/tasks-segregation-section/in-progress-tasks/in-progress-tasks-block";
-import ReadyForTestBlock from "../../components/tasks-segregation-section/ready-for-test-tasks/ready-tasks-block";
-import TodoTasksBlock from "../../components/tasks-segregation-section/to-do-tasks/to-do-tasks-block";
+import FinishedTasksBlock from "../../components/tasks-segregation-section/sections/finished-tasks/finished-tasks-block";
+import InProgressTasksBlock from "../../components/tasks-segregation-section/sections/in-progress-tasks/in-progress-tasks-block";
+import ReadyForTestBlock from "../../components/tasks-segregation-section/sections/ready-for-test-tasks/ready-tasks-block";
+import TodoTasksBlock from "../../components/tasks-segregation-section/sections/to-do-tasks/to-do-tasks-block";
 
 export default function AllTasksPage() {
   return (
