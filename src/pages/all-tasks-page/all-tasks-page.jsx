@@ -6,7 +6,7 @@ import TodoTasksBlock from "../../components/tasks-segregation-section/sections/
 
 export default function AllTasksPage() {
   return (
-    <main className="px-[120px]">
+    <main className="px-[120px] mb-[151px]">
       <h2 className="text-[34px] font-[FiraGO] font-bold text-[#212529]">
         დავალებების გვერდი
       </h2>
