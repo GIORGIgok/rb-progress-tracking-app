@@ -1,0 +1,7 @@
+.task-segregation-parent {
+  @apply w-[381px] h-[54px] rounded-[10px] flex justify-center items-center;
+}
+
+.block-heading-3 {
+  @apply text-[20px] font-[500] py-[15px] text-[#FFFFFF];
+}

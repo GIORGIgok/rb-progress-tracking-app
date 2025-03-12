@@ -1,4 +1,8 @@
 import { ArrowDownSvg } from "../../assets/svg/arrow-down";
+import FinishedTasksBlock from "../../components/tasks-segregation-section/finished-tasks/finished-tasks-block";
+import InProgressTasksBlock from "../../components/tasks-segregation-section/in-progress-tasks/in-progress-tasks-block";
+import ReadyForTestBlock from "../../components/tasks-segregation-section/ready-for-test-tasks/ready-tasks-block";
+import TodoTasksBlock from "../../components/tasks-segregation-section/to-do-tasks/to-do-tasks-block";
 
 export default function AllTasksPage() {
   return (
@@ -27,29 +31,13 @@ export default function AllTasksPage() {
       </div>
 
       <section className="w-full mt-[79px] flex gap-[52px]">
-        <div className="w-[381px] h-[54px]  bg-[#F7BC30] rounded-[10px] flex justify-center items-center">
-          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
-            დასაწყები
-          </h3>
-        </div>
+        <TodoTasksBlock />
 
-        <div className="w-[381px] h-[54px]  bg-[#FB5607] rounded-[10px] flex justify-center items-center">
-          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
-            პროგრესში
-          </h3>
-        </div>
+        <InProgressTasksBlock />
 
-        <div className="w-[381px] h-[54px]  bg-[#FF006E] rounded-[10px] flex justify-center items-center">
-          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
-            მზად ტესტირებისთვის
-          </h3>
-        </div>
+        <ReadyForTestBlock />
 
-        <div className="w-[381px] h-[54px]  bg-[#3A86FF] rounded-[10px] flex justify-center items-center">
-          <h3 className="text-[20px] font-[500] p-y-[15px] text-[#FFFFFF]">
-            დასრულებული
-          </h3>
-        </div>
+        <FinishedTasksBlock />
       </section>
     </main>
   );
