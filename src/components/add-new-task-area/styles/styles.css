@@ -1,0 +1,31 @@
+.add-new-task-container {
+  @apply w-[1684px] h-[758px] bg-[#FBF9FFA6] m-auto px-[65px] py-[65px] rounded-[4px] border-[0.3px] border-[#DDD2FF];
+}
+
+.label-heading {
+  @apply text-[16px] font-[400] block mb-[6px];
+}
+
+.standard-input {
+  @apply bg-[#FFFFFF] w-[550px] h-[45px] rounded-[5px] border-[#DEE2E6] border-[1px] p-[14px];
+}
+
+.standard-input-info {
+  @apply text-[10px] font-[350] text-[#6C757D] mt-[4px];
+}
+
+.description-input {
+  @apply w-[550px] h-[133px] bg-[#ffffff] border-[#DEE2E6] border-[1px] rounded-[5px];
+}
+
+.short-select {
+  @apply h-[46px] w-[259px] rounded-[5px] border-[#CED4DA] border-[1px] p-[14px] text-[#0D0F10];
+}
+
+.wide-select {
+  @apply h-[46px] w-[550px] rounded-[5px] border-[#CED4DA] border-[1px] p-[14px] text-[#0D0F10];
+}
+
+.submit-btn {
+  @apply bg-[#8338EC] rounded-[5px] text-[#ffffff] w-[208px] h-[42px];
+}
