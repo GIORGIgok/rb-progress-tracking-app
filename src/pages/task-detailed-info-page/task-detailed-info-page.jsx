@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import TaskDetailedInfo from "../../components/task-detailed-info-parts/task-detailed-info";
+import TaskDetailedInfo from "../../components/task-detailed-info-parts/detailed-info-upper-area";
 import { getTaskById } from "../../api/tasks/get-task-by-id";
 import StatusChangerLowerArea from "../../components/task-detailed-info-parts/status-changer-lower-area";
 import { updateTaskStatus } from "../../api/tasks/change-status";
+import AsideCommentsSection from "../../components/task-detailed-info-parts/aside-comments-section/aside-comments-section";
 
 export default function TaskDetailedInfoPage() {
   const { id } = useParams();
@@ -50,15 +51,18 @@ export default function TaskDetailedInfoPage() {
   };
 
   return (
-    <main className="mt-[40px] px-[120px]">
+    <main className="mt-[40px] px-[120px] flex justify-between">
       {task ? (
         <>
-          <TaskDetailedInfo task={task} />
-          <StatusChangerLowerArea
-            task={task}
-            onStatusChange={handleStatusChange}
-            loading={loading}
-          />
+          <section className="w-fit">
+            <TaskDetailedInfo task={task} />
+            <StatusChangerLowerArea
+              task={task}
+              onStatusChange={handleStatusChange}
+              loading={loading}
+            />
+          </section>
+          <AsideCommentsSection taskId={task.id} />
         </>
       ) : (
         <p>Loading or no task data available...</p>

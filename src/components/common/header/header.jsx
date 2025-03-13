@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import logo_img from "../../../assets/images/main-logo.png";
+import add_img from "../../../assets/images/add.png";
 import "./styles/header-styles.css";
 
 export default function Header() {
   return (
-    <header className="w-full h-[100px] flex justify-between items-center px-[120px] py-[30px] mb-[40px]">
+    <header className="header-container">
       <figure>
         <Link to="/">
           <img src={logo_img} alt="logo" />
@@ -17,7 +18,10 @@ export default function Header() {
         </button>
 
         <Link to="/add-new-task" className="button button-add-new-task">
-          + შექმენი ახალი დავალება
+          <figure className="flex items-center gap-[0.5px]">
+            <img src={add_img} alt="add-new-task" className="size-[20px]" />
+            <figcaption>შექმენი ახალი დავალება</figcaption>
+          </figure>
         </Link>
       </div>
     </header>
