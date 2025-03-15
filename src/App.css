@@ -2,6 +2,19 @@
 @import "tailwindcss";
 
 /* FONTS: */
+
+/* firago-latin-300-normal */
+@font-face {
+  font-family: "FiraGO";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/firago@latest/latin-300-normal.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/fontsource/fonts/firago@latest/latin-300-normal.woff)
+      format("woff");
+}
+
 /* firago-latin-400-normal */
 @font-face {
   font-family: "FiraGO";

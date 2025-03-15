@@ -106,12 +106,12 @@ export default function CommentsList({
                 <textarea
                   value={subCommentText}
                   onChange={(e) => setSubCommentText(e.target.value)}
-                  placeholder="Write your reply..."
+                  placeholder="დაწერე პასუხი..."
                   className="text-[#898989] font-[300] text-[14px] w-full bg-[#FFFFFF] border-[0.3px] border-[#ADB5BD] rounded-[10px] pt-[10px] px-[12px] pb-[10px] resize-none focus:outline-none focus:border-purple-600"
                 />
                 <button
                   type="submit"
-                  className="mt-2 text-[14px] bg-purple-600 text-white hover:bg-purple-700 rounded-[20px] px-[18px] py-[4px]"
+                  className="cursor-pointer mt-2 text-[14px] bg-purple-600 text-white hover:bg-purple-700 rounded-[20px] px-[18px] py-[4px]"
                 >
                   უპასუხე
                 </button>

@@ -57,7 +57,7 @@ export default function AsideCommentsSection({ taskId }) {
         <button
           disabled={loading}
           type="submit"
-          className="text-[14px] absolute right-3 bottom-3 bg-purple-600 text-white hover:bg-purple-700 rounded-[20px] px-[20px] py-[8px]"
+          className="cursor-pointer text-[14px] absolute right-3 bottom-3 bg-purple-600 text-white hover:bg-purple-700 rounded-[20px] px-[20px] py-[8px]"
         >
           დააკომენტარე
         </button>

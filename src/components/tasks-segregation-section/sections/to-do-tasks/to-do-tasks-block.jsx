@@ -11,7 +11,7 @@ export default function TodoTasksBlock() {
       try {
         const allTasks = await getAllTasks();
         const todoTasks = allTasks.filter((task) => task.status.id === 1);
-        console.log("Filtered tasks:", todoTasks);
+        // console.log("Filtered tasks:", todoTasks);
         setTasks(todoTasks);
       } catch (error) {}
     };

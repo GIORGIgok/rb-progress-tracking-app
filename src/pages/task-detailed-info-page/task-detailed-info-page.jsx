@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import TaskDetailedInfo from "../../components/task-detailed-info-parts/detailed-info-upper-area";
 import { getTaskById } from "../../api/tasks/get-task-by-id";
 import StatusChangerLowerArea from "../../components/task-detailed-info-parts/status-changer-lower-area";
-import { updateTaskStatus } from "../../api/tasks/change-status";
+import { updateTaskStatus } from "../../api/statuses/change-status";
 import AsideCommentsSection from "../../components/task-detailed-info-parts/aside-comments-section/aside-comments-section";
 
 export default function TaskDetailedInfoPage() {

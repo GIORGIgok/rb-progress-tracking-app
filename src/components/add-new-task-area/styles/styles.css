@@ -7,19 +7,19 @@
 }
 
 .standard-input {
-  @apply bg-[#FFFFFF] w-[550px] h-[45px] rounded-[5px] border-[#DEE2E6] border-[1px] p-[14px];
+  @apply bg-[#FFFFFF] w-[550px] h-[45px] rounded-[5px] p-[14px] focus-visible:border-[#8338EC] outline-none;
 }
 
 .standard-input-info {
-  @apply text-[10px] font-[350] text-[#6C757D] mt-[4px];
+  @apply text-[10px] font-[350] text-[#6C757D] mt-[4px] min-h-[32px];
 }
 
 .description-input {
-  @apply w-[550px] h-[133px] bg-[#ffffff] border-[#DEE2E6] border-[1px] rounded-[5px];
+  @apply w-[550px] h-[133px] bg-[#ffffff] rounded-[5px] p-[14px] resize-none outline-none focus-visible:border-[#8338EC];
 }
 
 .short-select {
-  @apply h-[46px] w-[259px] rounded-[5px] border-[#CED4DA] border-[1px] p-[14px] text-[#0D0F10];
+  @apply h-[46px] w-[259px] rounded-[5px] border-[#CED4DA] border-[1px] p-[14px] text-[#0D0F10] focus:outline-none focus:border-[#8338EC];
 }
 
 .wide-select {
@@ -28,4 +28,32 @@
 
 .submit-btn {
   @apply bg-[#8338EC] rounded-[5px] text-[#ffffff] w-[208px] h-[42px];
+}
+
+.custom-select-container {
+  @apply relative w-[259px];
+}
+
+.custom-select-container-wide {
+  @apply relative w-[550px];
+}
+
+.custom-select-box {
+  @apply flex justify-between items-center py-[12px] px-[14px] border-[1px] border-[#CED4DA] rounded-[5px] cursor-pointer bg-[#FFFFFF];
+}
+
+.custom-select-options {
+  @apply absolute top-[100%] w-full bg-[#ffffff] border-[1px] border-[#CED4DA] rounded-[4px] cursor-pointer list-none  max-h-[200px] overflow-y-auto z-10;
+}
+
+.custom-select-option {
+  @apply p-[14px] cursor-pointer flex justify-start items-center gap-[6px] hover:bg-[#f8f8f8];
+}
+
+.custom-label-bright-text {
+  color: #adb5bd !important;
+}
+
+.custom-label-dark-text {
+  color: #343a40 !important;
 }
