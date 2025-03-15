@@ -36,18 +36,19 @@ export default function CustomSelectEmployee({
     }
   };
 
+  // console.log(disabled);
+
   const selectedOption = options.find((option) => option.id === selectedValue);
 
   return (
-    <div
-      className={`custom-select-container-wide ${disabled ? "disabled" : ""}`}
-    >
+    <div className="custom-select-container-wide">
       <div
-        className="custom-select-box"
+        className={`custom-select-box ${
+          disabled ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
         onClick={handleToggle}
         aria-haspopup="true"
         aria-expanded={isOpenEmployeeOptions ? "true" : "false"}
-        style={{ cursor: disabled ? "not-allowed" : "pointer" }}
       >
         <span className="flex items-center gap-[6px] text-[14px] font-[300]">
           {selectedOption && (

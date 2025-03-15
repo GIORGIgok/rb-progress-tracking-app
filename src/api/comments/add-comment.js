@@ -3,7 +3,7 @@ import { BASEURL } from "../../constants/base-url";
 import { COMMENTS } from "../../constants/endpoints";
 
 export async function addComment(taskId, text, parentId) {
-  console.log("Task ID:", taskId);
+  // console.log("Task ID:", taskId);
   const response = await fetch(`${BASEURL}/tasks/${taskId}/${COMMENTS}`, {
     method: "POST",
     headers: {

@@ -33,7 +33,7 @@ export default function CustomSelectDepartment({
   const selectedOption = options.find((option) => option.id === selectedValue);
 
   return (
-    <div className="custom-select-container-wide">
+    <div className="custom-select-container-wide cursor-pointer">
       <div
         className="custom-select-box"
         onClick={handleToggle}

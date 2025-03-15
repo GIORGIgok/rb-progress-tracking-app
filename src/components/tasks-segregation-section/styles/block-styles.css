@@ -7,5 +7,5 @@
 }
 
 .carts-parent-container {
-  @apply flex flex-col items-center justify-center gap-[28px];
+  @apply flex flex-wrap items-center justify-center gap-[28px] overflow-y-auto max-h-[1045px] overflow-x-hidden;
 }

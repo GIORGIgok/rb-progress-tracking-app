@@ -4,13 +4,14 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { getAllStatuses } from "../../api/statuses/get-all-statuses";
 import { getAllDepartments } from "../../api/departments/get-all-departments";
-import { getAllEmployees } from "../../api/epmloyees/get-all-employees";
 import { getAllPriorities } from "../../api/priorities/get-all-priorities";
 import CustomSelectPriorities from "./custom-selects/custom-select-menu";
 import CustomSelectStatus from "./custom-selects/custom-select-status";
 import CustomSelectDepartment from "./custom-selects/custom-select-department";
 import CustomSelectEmployee from "./custom-selects/custom-select-employee";
 import { useNavigate } from "react-router-dom";
+import { createNewTask } from "../../api/tasks/create-new-task";
+import { getAllEmployees } from "../../api/epmloyees/get-all-employees";
 
 export default function AddNewTaskContainer() {
   const navigate = useNavigate();
@@ -24,11 +25,6 @@ export default function AddNewTaskContainer() {
   const [isOpenDepartmentOptions, setIsOpenDepartmentOptions] = useState(false);
   const [isOpenEmployeeOptions, setIsOpenEmployeeOptions] = useState(false);
 
-  const today = new Date().toISOString().split("T")[0];
-  const maxDate = new Date();
-  maxDate.setFullYear(maxDate.getFullYear() + 5);
-  const maxDateString = maxDate.toISOString().split("T")[0];
-
   useEffect(() => {
     getAllStatuses().then(setStatuses).catch(console.error);
     getAllDepartments().then(setDepartments).catch(console.error);
@@ -36,8 +32,19 @@ export default function AddNewTaskContainer() {
     getAllPriorities().then(setPriorities).catch(console.error);
   }, []);
 
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 360);
+
+  const todayString = today.toISOString().split("T")[0];
+  const tomorrowString = tomorrow.toISOString().split("T")[0];
+  const maxDateString = maxDate.toISOString().split("T")[0];
+
   const validationSchema = Yup.object({
-    title: Yup.string()
+    name: Yup.string()
       .min(2, "მინიმუმ 2 სიმბოლო")
       .max(255, "მაქსიმუმ 255 სიმბოლო")
       .required("სავალდებულო"),
@@ -51,48 +58,45 @@ export default function AddNewTaskContainer() {
         }
         return true;
       }),
-    priority: Yup.string().required("სავალდებულო"),
-    status: Yup.string().required("სავალდებულო"),
+    priority_id: Yup.string().required("სავალდებულო"),
+    status_id: Yup.string().required("სავალდებულო"),
     department: Yup.string().required("სავალდებულო"),
-    responsibleEmployee: Yup.string().required("სავალდებულო"),
-    deadline: Yup.date()
-      .min(new Date(), "წარსული თარიღი არ შეიძლება")
+    employee_id: Yup.string().required("სავალდებულო"),
+    due_date: Yup.date()
+      .min(todayString, "წარსული თარიღი არ შეიძლება")
       .required("სავალდებულო"),
   });
 
   const getInitialValues = () => {
     const savedFormData = localStorage.getItem("taskFormData");
-    if (savedFormData) {
-      return JSON.parse(savedFormData);
-    }
-    return {
-      title: "",
-      description: "",
-      priority: "",
-      status: "",
-      department: "",
-      responsibleEmployee: "",
-      deadline: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-    };
+
+    return savedFormData
+      ? JSON.parse(savedFormData)
+      : {
+          name: "",
+          description: "",
+          priority_id: "2",
+          status_id: "1",
+          department: "",
+          employee_id: "",
+          due_date: tomorrowString,
+        };
   };
 
-  const handleSubmit = async (values, { resetForm }) => {
-    setIsSubmitting(true);
-    setSubmissionError(null);
-
+  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+    setSubmitting(true);
     try {
-      await createTask(values);
-
+      await createNewTask(values);
       localStorage.removeItem("taskFormData");
-
       navigate("/");
     } catch (error) {
       console.error("Error creating task:", error);
-      setSubmissionError(
-        "დავალების შექმნა ვერ მოხერხდა. გთხოვთ, სცადოთ თავიდან."
+      setFieldError(
+        "taskNotCreated",
+        "დავალების შექმნა ვერ მოხერხდა. სცადეთ თავიდან."
       );
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
@@ -108,10 +112,12 @@ export default function AddNewTaskContainer() {
         handleChange,
         handleBlur,
         setFieldValue,
+        handleSubmit,
         errors,
         touched,
         isValid,
         dirty,
+        isSubmitting,
       }) => {
         const filteredEmployees = values.department
           ? employees.filter(
@@ -120,8 +126,9 @@ export default function AddNewTaskContainer() {
           : [];
 
         useEffect(() => {
-          setFieldValue("responsibleEmployee", "");
+          setFieldValue("employee_id", "");
         }, [values.department, setFieldValue]);
+
         const isEmployeeDisabled = !values.department;
 
         useEffect(() => {
@@ -129,32 +136,32 @@ export default function AddNewTaskContainer() {
         }, [values]);
 
         return (
-          <form>
+          <form onSubmit={handleSubmit}>
             <main className="add-new-task-container">
               <div className="float-left w-[40%]">
                 {/* TITLE */}
                 <div className="float-left">
-                  <label htmlFor="title" className="label-heading">
+                  <label htmlFor="name" className="label-heading">
                     სათაური*
                   </label>
                   <input
                     type="text"
-                    id="title"
-                    name="title"
+                    id="name"
+                    name="name"
                     className={`standard-input border ${
-                      touched.title
-                        ? errors.title
+                      touched.name
+                        ? errors.name
                           ? "border-[#FA4D4D]"
                           : "border-[#08A508]"
                         : "border-[#DEE2E6]"
                     }`}
-                    value={values.title}
+                    value={values.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
                   <div className="standard-input-info">
-                    {touched.title && errors.title ? (
-                      <p className="text-red-500">{errors.title}</p>
+                    {touched.name && errors.name ? (
+                      <p className="text-red-500">{errors.name}</p>
                     ) : (
                       <p>მინიმუმ 2 სიმბოლო</p>
                     )}
@@ -201,11 +208,11 @@ export default function AddNewTaskContainer() {
                     </span>
                     <CustomSelectPriorities
                       options={priorities}
-                      value={values.priority}
+                      value={values.priority_id}
                       isOpenPriorityOptions={isOpenPriorityOptions}
                       setIsOpenPriorityOptions={setIsOpenPriorityOptions}
                       onChange={(value) =>
-                        handleChange({ target: { name: "priority", value } })
+                        handleChange({ target: { name: "priority_id", value } })
                       }
                     />
                   </div>
@@ -220,11 +227,11 @@ export default function AddNewTaskContainer() {
                     </span>
                     <CustomSelectStatus
                       options={statuses}
-                      value={values.status}
+                      value={values.status_id}
                       isOpenStatusOptions={isOpenStatusOptions}
                       setIsOpenStatusOptions={setIsOpenStatusOptions}
                       onChange={(value) =>
-                        handleChange({ target: { name: "status", value } })
+                        handleChange({ target: { name: "status_id", value } })
                       }
                     />
                   </div>
@@ -249,7 +256,7 @@ export default function AddNewTaskContainer() {
                     setIsOpenDepartmentOptions={setIsOpenDepartmentOptions}
                     onChange={(value) => {
                       setFieldValue("department", value);
-                      setFieldValue("responsibleEmployee", "");
+                      setFieldValue("employee_id", "");
                     }}
                   />
                 </div>
@@ -261,16 +268,14 @@ export default function AddNewTaskContainer() {
                       values.department && filteredEmployees.length > 0
                         ? "custom-label-dark-text"
                         : ""
-                    }`}
+                    } ${isOpenEmployeeOptions ? "text-[#8338EC]!" : ""}`}
                   >
                     პასუხისმგებელი თანამშრომელი*
                   </span>
                   <CustomSelectEmployee
                     options={filteredEmployees}
-                    value={values.responsibleEmployee}
-                    onChange={(value) =>
-                      setFieldValue("responsibleEmployee", value)
-                    }
+                    value={values.employee_id}
+                    onChange={(value) => setFieldValue("employee_id", value)}
                     isOpenEmployeeOptions={isOpenEmployeeOptions}
                     setIsOpenEmployeeOptions={setIsOpenEmployeeOptions}
                     disabled={isEmployeeDisabled}
@@ -278,24 +283,24 @@ export default function AddNewTaskContainer() {
                 </div>
 
                 {/* DATE */}
-                <div className="float-left mt-[210px] w-full">
+                <div className="float-left mt-[200px] w-full">
                   <label className="label-heading">დედლაინი*</label>
                   <input
                     type="date"
-                    name="deadline"
+                    name="due_date"
                     className="block short-select"
-                    value={values.deadline}
+                    value={values.due_date}
                     onChange={(e) => {
-                      if (e.target.value < today) {
-                        setFieldValue("deadline", today);
+                      if (e.target.value < todayString) {
+                        setFieldValue("due_date", todayString);
                       } else if (e.target.value > maxDateString) {
-                        setFieldValue("deadline", maxDateString);
+                        setFieldValue("due_date", maxDateString);
                       } else {
                         handleChange(e);
                       }
                     }}
                     onBlur={handleBlur}
-                    min={today}
+                    min={todayString}
                     max={maxDateString}
                   />
                 </div>
@@ -303,7 +308,7 @@ export default function AddNewTaskContainer() {
                 {/* SUBMIT BTN */}
                 <div className="w-[550px] float-left mt-[80px]">
                   <button
-                    disabled={!isValid}
+                    disabled={!(isValid && dirty) || isSubmitting}
                     type="submit"
                     className={`submit-btn float-right cursor-pointer opacity-50 ${
                       isValid && dirty ? "opacity-100" : ""
@@ -311,6 +316,11 @@ export default function AddNewTaskContainer() {
                   >
                     დავალების შექმნა
                   </button>
+                  {errors.taskNotCreated && (
+                    <div className="text-red-500 mt-4 w-full float-left text-right">
+                      {errors.taskNotCreated}
+                    </div>
+                  )}
                 </div>
               </div>
             </main>

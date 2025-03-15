@@ -31,7 +31,7 @@
 }
 
 .custom-select-container {
-  @apply relative w-[259px];
+  @apply relative w-[239px];
 }
 
 .custom-select-container-wide {
@@ -39,7 +39,7 @@
 }
 
 .custom-select-box {
-  @apply flex justify-between items-center py-[12px] px-[14px] border-[1px] border-[#CED4DA] rounded-[5px] cursor-pointer bg-[#FFFFFF];
+  @apply flex justify-between items-center py-[12px] px-[14px] border-[1px] border-[#CED4DA] rounded-[5px] bg-[#FFFFFF];
 }
 
 .custom-select-options {

@@ -39,7 +39,7 @@ export default function CustomSelectStatus({
   const selectedOption = options.find((option) => option.id === selectedValue);
 
   return (
-    <div className="custom-select-container">
+    <div className="custom-select-container cursor-pointer">
       <div
         className="custom-select-box"
         onClick={handleToggle}
