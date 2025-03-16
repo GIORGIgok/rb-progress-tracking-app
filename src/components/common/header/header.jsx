@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import logo_img from "../../../assets/images/main-logo.png";
 import add_img from "../../../assets/images/add.png";
 import "./styles/header-styles.css";
+import { useModal } from "../../../contexts/modal-context";
 
 export default function Header() {
+  const { openModal } = useModal();
+
   return (
     <header className="header-container">
       <figure>
@@ -13,7 +16,7 @@ export default function Header() {
       </figure>
 
       <div className="flex gap-[40px] items-center">
-        <button className="button button-add-employee">
+        <button className="button button-add-employee" onClick={openModal}>
           თანამშრომლის შექმნა
         </button>
 

@@ -11,7 +11,7 @@
 }
 
 .standard-input-info {
-  @apply text-[10px] font-[350] text-[#6C757D] mt-[4px] min-h-[32px];
+  @apply text-[10px] font-[400] text-[#6C757D] mt-[4px] min-h-[32px];
 }
 
 .description-input {
@@ -39,7 +39,7 @@
 }
 
 .custom-select-box {
-  @apply flex justify-between items-center py-[12px] px-[14px] border-[1px] border-[#CED4DA] rounded-[5px] bg-[#FFFFFF];
+  @apply flex justify-between items-center p-[14px] border-[1px] border-[#CED4DA] rounded-[5px] bg-[#FFFFFF]  h-[50px];
 }
 
 .custom-select-options {

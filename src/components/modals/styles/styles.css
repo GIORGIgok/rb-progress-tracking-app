@@ -1,0 +1,43 @@
+.modal-label-heading {
+  @apply text-[16px] font-[400] block mb-[6px];
+}
+
+.modal-standard-input {
+  @apply bg-[#FFFFFF] w-[384px] h-[42px] rounded-[5px] p-[14px] focus-visible:border-[#8338EC] outline-none;
+}
+
+.modal-avatar-upload-container {
+  @apply hover:cursor-pointer py-[16px] rounded-[8px] flex items-center justify-center;
+}
+
+.avatar-images-wrapper {
+  @apply absolute bottom-[0px] right-[0px] size-[24px] bg-[#FFFFFF] rounded-full border-[0.3px] border-[#6C757D]/[0.4] transition-all duration-200 hover:border-[#FA4D4D] flex items-center justify-center;
+}
+
+.modal-custom-select-container {
+  @apply relative w-[384px];
+}
+
+.modal-custom-select-box {
+  @apply flex justify-between items-center p-[14px] rounded-[5px] bg-[#FFFFFF] h-[50px];
+}
+
+.modal-custom-select-options {
+  @apply absolute top-[100%] w-full bg-[#ffffff] border-[1px] border-[#CED4DA] rounded-[4px] cursor-pointer list-none  max-h-[200px] overflow-y-auto z-10;
+}
+
+.modal-custom-select-option {
+  @apply p-[14px] cursor-pointer flex justify-start items-center gap-[6px] hover:bg-[#f8f8f8];
+}
+
+.modal-input-info {
+  @apply text-[10px] font-[350] text-[#6C757D] mt-[4px] min-h-[32px];
+}
+
+.button-dismiss-adding {
+  @apply px-[20px] py-[10px] rounded-[5px] bg-[#ffffff] text-[18px] border-1 border-[#8338EC] font-[400] text-[#000000] hover:cursor-pointer;
+}
+
+.button-add-new-employee {
+  @apply ml-[22px] px-[20px] py-[10px] rounded-[5px] bg-[#8338EC] text-[18px] font-[400] border-1 border-[#8338EC] text-[#ffffff] hover:cursor-pointer;
+}

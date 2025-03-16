@@ -85,3 +85,12 @@ body {
   font-family: "FiraGO", sans-serif;
   min-width: 1920px;
 }
+
+/* MODAL STYLES */
+.modal {
+  @apply fixed transform -translate-x-1/2 -translate-y-1/2 top-[50%] left-[50%] w-[913px] rounded-[10px] pt-[40px] px-[50px] pb-[60px] h-[766px] bg-[rgb(255,255,255)] z-51;
+}
+
+.modal-overlay {
+  @apply fixed w-full h-full top-0 left-0 bg-[#0D0F1026]/15 z-50 backdrop-blur-sm;
+}

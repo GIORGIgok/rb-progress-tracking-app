@@ -113,6 +113,7 @@ export default function AddNewTaskContainer() {
         handleBlur,
         setFieldValue,
         handleSubmit,
+        setFieldTouched,
         errors,
         touched,
         isValid,
@@ -127,6 +128,7 @@ export default function AddNewTaskContainer() {
 
         useEffect(() => {
           setFieldValue("employee_id", "");
+          setFieldTouched("employee_id", true);
         }, [values.department, setFieldValue]);
 
         const isEmployeeDisabled = !values.department;
@@ -158,13 +160,32 @@ export default function AddNewTaskContainer() {
                     value={values.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    maxLength={255}
                   />
-                  <div className="standard-input-info">
-                    {touched.name && errors.name ? (
-                      <p className="text-red-500">{errors.name}</p>
-                    ) : (
-                      <p>მინიმუმ 2 სიმბოლო</p>
-                    )}
+                  <div className="mt-[6px]">
+                    <p
+                      className={`text-[10px] font-[350] mb-[2px] ${
+                        values.name.length === 1
+                          ? "text-[#FA4D4D]"
+                          : values.name.length >= 2 &&
+                            values.name.length <= 255 + 1
+                          ? "text-[#28A745]"
+                          : "text-[#6C757D]"
+                      }`}
+                    >
+                      ✔ მინიმუმ 2 სიმბოლო
+                    </p>
+                    <p
+                      className={`text-[10px] font-[350] ${
+                        values.name.length > 255
+                          ? "text-[#FA4D4D]"
+                          : values.name.length > 0 && values.name.length <= 255
+                          ? "text-[#28A745]"
+                          : "text-[#6C757D]"
+                      }`}
+                    >
+                      ✔ მაქსიმუმ 255 სიმბოლო
+                    </p>
                   </div>
                 </div>
 
@@ -176,7 +197,7 @@ export default function AddNewTaskContainer() {
                   <textarea
                     name="description"
                     id="description"
-                    className={`description-input border ${
+                    className={`description-input float-left border ${
                       touched.description
                         ? errors.description
                           ? "border-[#FA4D4D]"
@@ -186,13 +207,35 @@ export default function AddNewTaskContainer() {
                     value={values.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    maxLength={255}
                   />
-                  <div className="standard-input-info h-[49px]">
-                    {touched.description && errors.description ? (
-                      <p className="text-red-500">{errors.description}</p>
-                    ) : (
-                      <p>არასავალდებულო</p>
-                    )}
+                  <div className="standard-input-info float-left">
+                    <span
+                      className={`text-[10px] font-[350] mb-[2px] ${
+                        values.description.trim().split(/\s+/).length >= 4
+                          ? "text-[#28A745]"
+                          : values.description.trim().split(/\s+/).length < 4 &&
+                            values.description.length > 0
+                          ? "text-[#FA4D4D]"
+                          : "text-[#6C757D]"
+                      }`}
+                    >
+                      ✔ მინიმუმ 4 სიტყვა
+                    </span>
+                    <p
+                      className={`text-[10px] font-[350] mb-[2px] ${
+                        values.description.length <= 255 &&
+                        values.description.length > 0
+                          ? "text-[#28A745]"
+                          : values.description.length === 0
+                          ? "text-[#6C757D]"
+                          : values.description.length > 255
+                          ? "text-[#FA4D4D]"
+                          : ""
+                      }`}
+                    >
+                      ✔ მაქსიმუმ 255 სიმბოლო
+                    </p>
                   </div>
                 </div>
 
@@ -278,12 +321,23 @@ export default function AddNewTaskContainer() {
                     onChange={(value) => setFieldValue("employee_id", value)}
                     isOpenEmployeeOptions={isOpenEmployeeOptions}
                     setIsOpenEmployeeOptions={setIsOpenEmployeeOptions}
-                    disabled={isEmployeeDisabled}
+                    disabled={
+                      filteredEmployees.length === 0 || isEmployeeDisabled
+                    }
                   />
+                  <div className="standard-input-info float-left">
+                    {values.department && (
+                      <p className="text-[#FA4D4D]">
+                        {filteredEmployees.length === 0 || !values.employee_id
+                          ? errors.employee_id
+                          : ""}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* DATE */}
-                <div className="float-left mt-[200px] w-full">
+                <div className="float-left mt-[132px] w-full">
                   <label className="label-heading">დედლაინი*</label>
                   <input
                     type="date"

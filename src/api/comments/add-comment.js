@@ -9,6 +9,7 @@ export async function addComment(taskId, text, parentId) {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${TOKEN}`,
+      Credentials: "include",
     },
     body: JSON.stringify({
       text,
