@@ -94,3 +94,34 @@ body {
 .modal-overlay {
   @apply fixed w-full h-full top-0 left-0 bg-[#0D0F1026]/15 z-50 backdrop-blur-sm;
 }
+
+/* CUSTOM CHECKBOX */
+.custom-checkbox {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #8338ec;
+  border-radius: 4px;
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-checkbox:checked {
+  background-color: #8338ec;
+  border-color: transparent;
+}
+
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 12px;
+  height: 7px;
+  border: 2px solid white;
+  border-top: none;
+  border-right: none;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}

@@ -7,9 +7,9 @@
 }
 
 .button-add-employee {
-  @apply text-[#212529] border-1 border-[#8338EC];
+  @apply text-[#212529] border-1 border-[#8338EC] hover:border-[#B588F4] transition-colors duration-200;
 }
 
 .button-add-new-task {
-  @apply text-[#FFFFFF] border-1 bg-[#8338EC] border-1 border-[#8338EC];
+  @apply text-[#FFFFFF] bg-[#8338EC] hover:bg-[#B588F4] border-1 border-[#8338EC] transition-colors duration-200;
 }

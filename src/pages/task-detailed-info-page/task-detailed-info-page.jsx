@@ -15,14 +15,13 @@ export default function TaskDetailedInfoPage() {
     const fetchTask = async () => {
       try {
         if (!id) {
-          console.log("No ID in URL params!");
           return;
         }
         const data = await getTaskById(id);
         if (data) {
           setTask(data);
         } else {
-          console.log("Task not found");
+          console.error("Task not found");
         }
       } catch (err) {
         console.error("Error fetching task:", err);
@@ -41,7 +40,6 @@ export default function TaskDetailedInfoPage() {
           ...prevTask,
           status: { id: newStatusId, name: newStatusId },
         }));
-        console.log("Task status updated successfully!");
       } catch (err) {
         console.error("Error updating task status:", err);
       } finally {

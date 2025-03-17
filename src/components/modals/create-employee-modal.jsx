@@ -64,10 +64,10 @@ export const CreateEmployeeModal = () => {
         if (avatar) {
           formData.append("avatar", avatar);
         }
-        console.log("FormData contents:");
-        for (let [key, value] of formData.entries()) {
-          console.log(key, value);
-        }
+        // console.log("FormData contents:");
+        // for (let [key, value] of formData.entries()) {
+        //   console.log(key, value);
+        // }
         await addEmployee(formData);
 
         resetForm();

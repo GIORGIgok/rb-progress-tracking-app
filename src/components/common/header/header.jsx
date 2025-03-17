@@ -1,7 +1,7 @@
+import "./styles/header-styles.css";
 import { Link } from "react-router-dom";
 import logo_img from "../../../assets/images/main-logo.png";
 import add_img from "../../../assets/images/add.png";
-import "./styles/header-styles.css";
 import { useModal } from "../../../contexts/modal-context";
 
 export default function Header() {

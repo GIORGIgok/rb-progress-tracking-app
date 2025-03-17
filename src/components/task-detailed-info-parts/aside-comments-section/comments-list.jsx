@@ -70,7 +70,7 @@ export default function CommentsList({
               />
               <figcaption
                 onClick={() => handleReplyClick(comment.id)}
-                className="w-fit text-[#8338EC] text-[12px] leading-[100%] cursor-pointer"
+                className="w-fit text-[#8338EC] hover:text-[#B588F4] text-[12px] font-[700] leading-[100%] cursor-pointer"
               >
                 უპასუხე
               </figcaption>
@@ -111,7 +111,7 @@ export default function CommentsList({
                 />
                 <button
                   type="submit"
-                  className="cursor-pointer mt-2 text-[14px] bg-purple-600 text-white hover:bg-purple-700 rounded-[20px] px-[18px] py-[4px]"
+                  className="cursor-pointer mt-2 text-[14px] bg-[#8338EC] text-white hover:bg-[#B588F4] transition-colors duration-200 rounded-[20px] px-[18px] py-[4px]"
                 >
                   უპასუხე
                 </button>
