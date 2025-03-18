@@ -1,4 +1,3 @@
-import { TOKEN } from "../../constants/api-auth-token";
 import { BASEURL } from "../../constants/base-url";
 import { STATUSES } from "../../constants/endpoints";
 
@@ -7,7 +6,7 @@ export const getAllStatuses = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${import.meta.env.VITE_APP_API_TOKEN}`,
     },
   });
 

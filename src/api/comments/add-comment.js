@@ -1,4 +1,3 @@
-import { TOKEN } from "../../constants/api-auth-token";
 import { BASEURL } from "../../constants/base-url";
 import { COMMENTS } from "../../constants/endpoints";
 
@@ -8,7 +7,7 @@ export async function addComment(taskId, text, parentId) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${import.meta.env.VITE_APP_API_TOKEN}`,
       Credentials: "include",
     },
     body: JSON.stringify({

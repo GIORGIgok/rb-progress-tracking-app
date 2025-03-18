@@ -6,7 +6,7 @@ export default function FiltrationDropdown({
 }) {
   const handleCheckboxChange = (value) => {
     if (isSingleSelect) {
-      onSelectFilter([value]);
+      onSelectFilter(selectedFilters.includes(value) ? [] : [value]);
     } else {
       // for multi-select
       const updatedFilters = selectedFilters.includes(value)

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCommentsByTaskId } from "../../../api/comments/get-comment-by-id";
 import CommentsList from "./comments-list";
+import { addComment } from "../../../api/comments/add-comment";
 
 export default function AsideCommentsSection({ taskId }) {
   const [comment, setComment] = useState("");
@@ -33,6 +34,8 @@ export default function AsideCommentsSection({ taskId }) {
     if (newComment) {
       // console.log("Comment added:", newComment);
       setComment("");
+      const data = await getCommentsByTaskId(taskId);
+      setComments(data);
     } else {
       console.error("Failed to add comment");
     }

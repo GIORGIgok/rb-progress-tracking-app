@@ -1,4 +1,3 @@
-import { TOKEN } from "../../constants/api-auth-token";
 import { TASKS } from "../../constants/endpoints";
 
 export const getTaskById = async (taskId) => {
@@ -6,7 +5,7 @@ export const getTaskById = async (taskId) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${import.meta.env.VITE_APP_API_TOKEN}`,
     },
   });
 

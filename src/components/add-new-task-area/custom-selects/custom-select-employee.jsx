@@ -53,6 +53,13 @@ export default function CustomSelectEmployee({
         <span className="flex items-center gap-[6px] text-[14px] font-[300]">
           {selectedOption && (
             <>
+              <figure>
+                <img
+                  src={selectedOption.avatar}
+                  alt="employee-avatar"
+                  className="size-[28px] rounded-full object-cover"
+                />
+              </figure>
               <span className="leading-normal">{`${selectedOption.name} ${selectedOption.surname}`}</span>
             </>
           )}
@@ -77,6 +84,13 @@ export default function CustomSelectEmployee({
               className="custom-select-option"
               onClick={() => handleSelect(option)}
             >
+              <figure>
+                <img
+                  src={option.avatar}
+                  alt="employee-avatar"
+                  className="size-[28px] rounded-full object-cover"
+                />
+              </figure>
               <span className="leading-[150%] font-[300]">{`${option.name} ${option.surname}`}</span>
             </li>
           ))}
