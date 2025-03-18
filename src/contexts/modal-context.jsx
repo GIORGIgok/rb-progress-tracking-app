@@ -4,9 +4,21 @@ const ModalContext = createContext(null);
 
 export const ModalProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const openModal = (data = null) => {
+    setModalData(data);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setModalData(null);
+  };
+
+  const updateModalData = (data) => {
+    setModalData(data);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -17,7 +29,9 @@ export const ModalProvider = ({ children }) => {
   }, [isOpen]);
 
   return (
-    <ModalContext.Provider value={{ isOpen, openModal, closeModal }}>
+    <ModalContext.Provider
+      value={{ isOpen, openModal, closeModal, modalData, updateModalData }}
+    >
       {children}
     </ModalContext.Provider>
   );

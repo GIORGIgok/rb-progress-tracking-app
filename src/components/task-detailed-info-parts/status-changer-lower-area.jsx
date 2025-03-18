@@ -1,7 +1,6 @@
 import status_img from "../../assets/images/task-detailed/pie-chart.png";
 import employee_img from "../../assets/images/task-detailed/employee.png";
 import calendar_img from "../../assets/images/task-detailed/calendar.png";
-import employee_test_img from "../../assets/images/employee-test-img.jpeg";
 import { useState } from "react";
 import { shortenDepartmentName } from "../../helpers/shorten-dep-name";
 import { formatGeorgianDate } from "../../helpers/ka-date-formatter";
@@ -64,17 +63,19 @@ export default function StatusChangerLowerArea({
         <div className="h-[70px] flex gap-[12px] relative">
           <figure className="w-fit">
             <img
-              src={employee_test_img}
+              src={task.employee.avatar}
               alt="employee-img"
               className="rounded-full object-cover w-[32px] h-[32px]"
             />
           </figure>
-          <span className="absolute left-[58px] top-[-4px] text-[11px] font-[300] text-[#474747]">
-            {shortenDepartmentName(task.employee.department.name)}
-          </span>
-          <span className="text-[14px] leading-[150%] pt-[10px] text-[#0D0F10]">
-            {task.employee.name}
-          </span>
+          <div className="flex flex-col items-center gap-[1px]">
+            <span className=" text-[11px] font-[300] text-[#474747]">
+              {shortenDepartmentName(task.employee.department.name)}
+            </span>
+            <span className="text-[14px] leading-[150%] text-[#0D0F10]">
+              {`${task.employee.name} ${task.employee.surname}`}
+            </span>
+          </div>
         </div>
         <div className="h-[70px] ">{formatGeorgianDate(task.due_date)}</div>
       </div>

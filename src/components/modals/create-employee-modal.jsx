@@ -10,18 +10,19 @@ import * as Yup from "yup";
 import { getAllDepartments } from "../../api/departments/get-all-departments";
 import { addEmployee } from "../../api/epmloyees/add-employee";
 import { handleKeyPress } from "../../helpers/regex-keypress-handler";
+import { getAllEmployees } from "../../api/epmloyees/get-all-employees";
 
 export const CreateEmployeeModal = () => {
-  const { isOpen, closeModal } = useModal();
+  const { isOpen, closeModal, modalData } = useModal();
 
-  const [departments, setDepartments] = useState([]);
+  const [departments, setLocalDepartments] = useState([]);
   const [isOpenDepartmentOptions, setIsOpenDepartmentOptions] = useState(false);
 
   const [avatar, setAvatar] = useState(null);
   const [avatarError, setAvatarError] = useState(null);
 
   useEffect(() => {
-    getAllDepartments().then(setDepartments).catch(console.error);
+    getAllDepartments().then(setLocalDepartments).catch(console.error);
   }, []);
 
   const validationSchema = Yup.object({
@@ -69,6 +70,8 @@ export const CreateEmployeeModal = () => {
         //   console.log(key, value);
         // }
         await addEmployee(formData);
+
+        getAllEmployees().then(modalData).catch(console.error);
 
         resetForm();
         closeModal();

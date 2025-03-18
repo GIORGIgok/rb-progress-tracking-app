@@ -22,7 +22,14 @@ function App() {
           <Route path="/add-new-task" element={<AddNewTaskPage />} />
 
           {/* Not Found Page */}
-          <Route path="*" element={<h1>Not Found</h1>} />
+          <Route
+            path="*"
+            element={
+              <h1 className="text-center text-[#8338EC] text-[24px]">
+                Page Not Found
+              </h1>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </ModalProvider>

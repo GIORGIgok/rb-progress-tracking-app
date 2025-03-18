@@ -12,6 +12,7 @@ import CustomSelectEmployee from "./custom-selects/custom-select-employee";
 import { useNavigate } from "react-router-dom";
 import { createNewTask } from "../../api/tasks/create-new-task";
 import { getAllEmployees } from "../../api/epmloyees/get-all-employees";
+import { useModal } from "../../contexts/modal-context";
 
 export default function AddNewTaskContainer() {
   const navigate = useNavigate();
@@ -25,12 +26,22 @@ export default function AddNewTaskContainer() {
   const [isOpenDepartmentOptions, setIsOpenDepartmentOptions] = useState(false);
   const [isOpenEmployeeOptions, setIsOpenEmployeeOptions] = useState(false);
 
+  const { modalData, openModal } = useModal();
+
   useEffect(() => {
     getAllStatuses().then(setStatuses).catch(console.error);
     getAllDepartments().then(setDepartments).catch(console.error);
-    getAllEmployees().then(setEmployees).catch(console.error);
     getAllPriorities().then(setPriorities).catch(console.error);
+    getAllEmployees().then(setEmployees).catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (modalData && modalData.length > 0) {
+      setEmployees(modalData);
+    } else {
+      getAllEmployees().then(setEmployees).catch(console.error);
+    }
+  }, [modalData]);
 
   const today = new Date();
   const tomorrow = new Date();
@@ -101,286 +112,297 @@ export default function AddNewTaskContainer() {
   };
 
   return (
-    <Formik
-      initialValues={getInitialValues()}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-      enableReinitialize={true}
-    >
-      {({
-        values,
-        handleChange,
-        handleBlur,
-        setFieldValue,
-        handleSubmit,
-        setFieldTouched,
-        errors,
-        touched,
-        isValid,
-        dirty,
-        isSubmitting,
-      }) => {
-        const filteredEmployees = values.department
-          ? employees.filter(
-              (employee) => employee.department.id === Number(values.department)
-            )
-          : [];
+    <>
+      <Formik
+        initialValues={getInitialValues()}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize={true}
+      >
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+          handleSubmit,
+          setFieldTouched,
+          errors,
+          touched,
+          isValid,
+          dirty,
+          isSubmitting,
+        }) => {
+          const filteredEmployees = values.department
+            ? employees.filter(
+                (employee) => employee.department.id === values.department
+              )
+            : [];
 
-        useEffect(() => {
-          setFieldValue("employee_id", "");
-          setFieldTouched("employee_id", true);
-        }, [values.department, setFieldValue]);
+          useEffect(() => {
+            setFieldValue("employee_id", "");
+            setFieldTouched("employee_id", true);
+          }, [values.department, setFieldValue]);
 
-        const isEmployeeDisabled = !values.department;
+          const isEmployeeDisabled = !values.department;
 
-        useEffect(() => {
-          localStorage.setItem("taskFormData", JSON.stringify(values));
-        }, [values]);
+          useEffect(() => {
+            localStorage.setItem("taskFormData", JSON.stringify(values));
+          }, [values]);
 
-        return (
-          <form onSubmit={handleSubmit}>
-            <main className="add-new-task-container">
-              <div className="float-left w-[40%]">
-                {/* TITLE */}
-                <div className="float-left">
-                  <label htmlFor="name" className="label-heading">
-                    სათაური*
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className={`standard-input border ${
-                      touched.name
-                        ? errors.name
-                          ? "border-[#FA4D4D]"
-                          : "border-[#08A508]"
-                        : "border-[#DEE2E6]"
-                    }`}
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    maxLength={255}
-                  />
-                  <div className="mt-[6px]">
-                    <p
-                      className={`text-[10px] font-[350] mb-[2px] ${
-                        values.name.length === 1
-                          ? "text-[#FA4D4D]"
-                          : values.name.length >= 2 &&
-                            values.name.length <= 255 + 1
-                          ? "text-[#28A745]"
-                          : "text-[#6C757D]"
+          return (
+            <form onSubmit={handleSubmit}>
+              <main className="add-new-task-container">
+                <div className="float-left w-[40%]">
+                  {/* TITLE */}
+                  <div className="float-left">
+                    <label htmlFor="name" className="label-heading">
+                      სათაური*
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className={`standard-input border ${
+                        touched.name
+                          ? errors.name
+                            ? "border-[#FA4D4D]"
+                            : "border-[#08A508]"
+                          : "border-[#DEE2E6]"
                       }`}
-                    >
-                      ✔ მინიმუმ 2 სიმბოლო
-                    </p>
-                    <p
-                      className={`text-[10px] font-[350] ${
-                        values.name.length > 255
-                          ? "text-[#FA4D4D]"
-                          : values.name.length > 0 && values.name.length <= 255
-                          ? "text-[#28A745]"
-                          : "text-[#6C757D]"
-                      }`}
-                    >
-                      ✔ მაქსიმუმ 255 სიმბოლო
-                    </p>
-                  </div>
-                </div>
-
-                {/* DESCRIPTION */}
-                <div className="float-left my-[57px]">
-                  <label htmlFor="description" className="label-heading">
-                    აღწერა
-                  </label>
-                  <textarea
-                    name="description"
-                    id="description"
-                    className={`description-input float-left border ${
-                      touched.description
-                        ? errors.description
-                          ? "border-[#FA4D4D]"
-                          : "border-[#08A508]"
-                        : "border-[#DEE2E6]"
-                    }`}
-                    value={values.description}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    maxLength={255}
-                  />
-                  <div className="standard-input-info float-left">
-                    <span
-                      className={`text-[10px] font-[350] mb-[2px] ${
-                        values.description.trim().split(/\s+/).length >= 4
-                          ? "text-[#28A745]"
-                          : values.description.trim().split(/\s+/).length < 4 &&
-                            values.description.length > 0
-                          ? "text-[#FA4D4D]"
-                          : "text-[#6C757D]"
-                      }`}
-                    >
-                      ✔ მინიმუმ 4 სიტყვა
-                    </span>
-                    <p
-                      className={`text-[10px] font-[350] mb-[2px] ${
-                        values.description.length <= 255 &&
-                        values.description.length > 0
-                          ? "text-[#28A745]"
-                          : values.description.length === 0
-                          ? "text-[#6C757D]"
-                          : values.description.length > 255
-                          ? "text-[#FA4D4D]"
-                          : ""
-                      }`}
-                    >
-                      ✔ მაქსიმუმ 255 სიმბოლო
-                    </p>
-                  </div>
-                </div>
-
-                {/* PRIORITIES & STATUS */}
-                <div className="float-left w-full">
-                  <div className="w-[50%] float-left">
-                    <span
-                      className={`label-heading text-[#343A40] ${
-                        isOpenPriorityOptions ? "text-[#8338EC]" : ""
-                      }`}
-                    >
-                      პრიორიტეტი*
-                    </span>
-                    <CustomSelectPriorities
-                      options={priorities}
-                      value={values.priority_id}
-                      isOpenPriorityOptions={isOpenPriorityOptions}
-                      setIsOpenPriorityOptions={setIsOpenPriorityOptions}
-                      onChange={(value) =>
-                        handleChange({ target: { name: "priority_id", value } })
-                      }
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      maxLength={255}
                     />
-                  </div>
-
-                  <div className="w-[50%] float-right h-[350px]">
-                    <span
-                      className={`label-heading text-[#343A40] ${
-                        isOpenStatusOptions ? "text-[#8338EC]" : ""
-                      }`}
-                    >
-                      სტატუსი*
-                    </span>
-                    <CustomSelectStatus
-                      options={statuses}
-                      value={values.status_id}
-                      isOpenStatusOptions={isOpenStatusOptions}
-                      setIsOpenStatusOptions={setIsOpenStatusOptions}
-                      onChange={(value) =>
-                        handleChange({ target: { name: "status_id", value } })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT SIDE */}
-              <div className="float-right w-[60%] pl-[141px]">
-                {/* DEPARTMENT */}
-                <div className="w-full float-left">
-                  <span
-                    className={`label-heading text-[#343A40] ${
-                      isOpenDepartmentOptions ? "text-[#8338EC]" : ""
-                    }`}
-                  >
-                    დეპარტამენტი*
-                  </span>
-                  <CustomSelectDepartment
-                    options={departments}
-                    value={values.department}
-                    isOpenDepartmentOptions={isOpenDepartmentOptions}
-                    setIsOpenDepartmentOptions={setIsOpenDepartmentOptions}
-                    onChange={(value) => {
-                      setFieldValue("department", value);
-                      setFieldValue("employee_id", "");
-                    }}
-                  />
-                </div>
-
-                {/* RESPONSIBLE EMPLOYEE */}
-                <div className="mt-[94px] float-left">
-                  <span
-                    className={`label-heading custom-label-bright-text ${
-                      values.department && filteredEmployees.length > 0
-                        ? "custom-label-dark-text"
-                        : ""
-                    } ${isOpenEmployeeOptions ? "text-[#8338EC]!" : ""}`}
-                  >
-                    პასუხისმგებელი თანამშრომელი*
-                  </span>
-                  <CustomSelectEmployee
-                    options={filteredEmployees}
-                    value={values.employee_id}
-                    onChange={(value) => setFieldValue("employee_id", value)}
-                    isOpenEmployeeOptions={isOpenEmployeeOptions}
-                    setIsOpenEmployeeOptions={setIsOpenEmployeeOptions}
-                    disabled={
-                      filteredEmployees.length === 0 || isEmployeeDisabled
-                    }
-                  />
-                  <div className="standard-input-info float-left">
-                    {values.department && (
-                      <p className="text-[#FA4D4D]">
-                        {filteredEmployees.length === 0 || !values.employee_id
-                          ? errors.employee_id
-                          : ""}
+                    <div className="mt-[6px]">
+                      <p
+                        className={`text-[10px] font-[350] mb-[2px] ${
+                          values.name.length === 1
+                            ? "text-[#FA4D4D]"
+                            : values.name.length >= 2 &&
+                              values.name.length <= 255 + 1
+                            ? "text-[#28A745]"
+                            : "text-[#6C757D]"
+                        }`}
+                      >
+                        ✔ მინიმუმ 2 სიმბოლო
                       </p>
+                      <p
+                        className={`text-[10px] font-[350] ${
+                          values.name.length > 255
+                            ? "text-[#FA4D4D]"
+                            : values.name.length > 0 &&
+                              values.name.length <= 255
+                            ? "text-[#28A745]"
+                            : "text-[#6C757D]"
+                        }`}
+                      >
+                        ✔ მაქსიმუმ 255 სიმბოლო
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* DESCRIPTION */}
+                  <div className="float-left my-[57px]">
+                    <label htmlFor="description" className="label-heading">
+                      აღწერა
+                    </label>
+                    <textarea
+                      name="description"
+                      id="description"
+                      className={`description-input float-left border ${
+                        touched.description
+                          ? errors.description
+                            ? "border-[#FA4D4D]"
+                            : "border-[#08A508]"
+                          : "border-[#DEE2E6]"
+                      }`}
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      maxLength={255}
+                    />
+                    <div className="standard-input-info float-left">
+                      <span
+                        className={`text-[10px] font-[350] mb-[2px] ${
+                          values.description.trim().split(/\s+/).length >= 4
+                            ? "text-[#28A745]"
+                            : values.description.trim().split(/\s+/).length <
+                                4 && values.description.length > 0
+                            ? "text-[#FA4D4D]"
+                            : "text-[#6C757D]"
+                        }`}
+                      >
+                        ✔ მინიმუმ 4 სიტყვა
+                      </span>
+                      <p
+                        className={`text-[10px] font-[350] mb-[2px] ${
+                          values.description.length <= 255 &&
+                          values.description.length > 0
+                            ? "text-[#28A745]"
+                            : values.description.length === 0
+                            ? "text-[#6C757D]"
+                            : values.description.length > 255
+                            ? "text-[#FA4D4D]"
+                            : ""
+                        }`}
+                      >
+                        ✔ მაქსიმუმ 255 სიმბოლო
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* PRIORITIES & STATUS */}
+                  <div className="float-left w-full">
+                    <div className="w-[50%] float-left">
+                      <span
+                        className={`label-heading text-[#343A40] ${
+                          isOpenPriorityOptions ? "text-[#8338EC]" : ""
+                        }`}
+                      >
+                        პრიორიტეტი*
+                      </span>
+                      <CustomSelectPriorities
+                        options={priorities}
+                        value={values.priority_id}
+                        isOpenPriorityOptions={isOpenPriorityOptions}
+                        setIsOpenPriorityOptions={setIsOpenPriorityOptions}
+                        onChange={(value) =>
+                          handleChange({
+                            target: { name: "priority_id", value },
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="w-[50%] float-right h-[350px]">
+                      <span
+                        className={`label-heading text-[#343A40] ${
+                          isOpenStatusOptions ? "text-[#8338EC]" : ""
+                        }`}
+                      >
+                        სტატუსი*
+                      </span>
+                      <CustomSelectStatus
+                        options={statuses}
+                        value={values.status_id}
+                        isOpenStatusOptions={isOpenStatusOptions}
+                        setIsOpenStatusOptions={setIsOpenStatusOptions}
+                        onChange={(value) =>
+                          handleChange({
+                            target: { name: "status_id", value },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* RIGHT SIDE */}
+                <div className="float-right w-[60%] pl-[141px]">
+                  {/* DEPARTMENT */}
+                  <div className="w-full float-left">
+                    <span
+                      className={`label-heading text-[#343A40] ${
+                        isOpenDepartmentOptions ? "text-[#8338EC]" : ""
+                      }`}
+                    >
+                      დეპარტამენტი*
+                    </span>
+                    <CustomSelectDepartment
+                      options={departments}
+                      value={values.department}
+                      isOpenDepartmentOptions={isOpenDepartmentOptions}
+                      setIsOpenDepartmentOptions={setIsOpenDepartmentOptions}
+                      onChange={(value) => {
+                        setFieldValue("department", value);
+                        setFieldValue("employee_id", "");
+                      }}
+                    />
+                  </div>
+
+                  {/* RESPONSIBLE EMPLOYEE */}
+                  <div className="mt-[94px] float-left">
+                    <span
+                      className={`label-heading custom-label-bright-text ${
+                        values.department && filteredEmployees.length > 0
+                          ? "custom-label-dark-text"
+                          : ""
+                      } ${isOpenEmployeeOptions ? "text-[#8338EC]!" : ""}`}
+                    >
+                      პასუხისმგებელი თანამშრომელი*
+                    </span>
+                    <CustomSelectEmployee
+                      options={filteredEmployees}
+                      value={values.employee_id}
+                      onChange={(value) => setFieldValue("employee_id", value)}
+                      isOpenEmployeeOptions={isOpenEmployeeOptions}
+                      setIsOpenEmployeeOptions={setIsOpenEmployeeOptions}
+                      disabled={
+                        filteredEmployees.length === 0 || isEmployeeDisabled
+                      }
+                      modalOpener={openModal}
+                    />
+                    <div className="standard-input-info float-left">
+                      {values.department && (
+                        <p className="text-[#FA4D4D]">
+                          {filteredEmployees.length === 0 || !values.employee_id
+                            ? errors.employee_id
+                            : ""}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* DATE */}
+                  <div className="float-left mt-[132px] w-full">
+                    <label htmlFor="due_date" className="label-heading">
+                      დედლაინი*
+                    </label>
+                    <input
+                      type="date"
+                      name="due_date"
+                      id="due_date"
+                      className="block short-select"
+                      value={values.due_date}
+                      onChange={(e) => {
+                        if (e.target.value < todayString) {
+                          setFieldValue("due_date", todayString);
+                        } else if (e.target.value > maxDateString) {
+                          setFieldValue("due_date", maxDateString);
+                        } else {
+                          handleChange(e);
+                        }
+                      }}
+                      onBlur={handleBlur}
+                      min={todayString}
+                      max={maxDateString}
+                    />
+                  </div>
+
+                  {/* SUBMIT BTN */}
+                  <div className="w-[550px] float-left mt-[80px]">
+                    <button
+                      disabled={!(isValid && dirty) || isSubmitting}
+                      type="submit"
+                      className={`submit-btn float-right cursor-pointer opacity-50 ${
+                        isValid && dirty ? "opacity-100" : ""
+                      }`}
+                    >
+                      დავალების შექმნა
+                    </button>
+                    {errors.taskNotCreated && (
+                      <div className="text-red-500 mt-4 w-full float-left text-right">
+                        {errors.taskNotCreated}
+                      </div>
                     )}
                   </div>
                 </div>
-
-                {/* DATE */}
-                <div className="float-left mt-[132px] w-full">
-                  <label className="label-heading">დედლაინი*</label>
-                  <input
-                    type="date"
-                    name="due_date"
-                    className="block short-select"
-                    value={values.due_date}
-                    onChange={(e) => {
-                      if (e.target.value < todayString) {
-                        setFieldValue("due_date", todayString);
-                      } else if (e.target.value > maxDateString) {
-                        setFieldValue("due_date", maxDateString);
-                      } else {
-                        handleChange(e);
-                      }
-                    }}
-                    onBlur={handleBlur}
-                    min={todayString}
-                    max={maxDateString}
-                  />
-                </div>
-
-                {/* SUBMIT BTN */}
-                <div className="w-[550px] float-left mt-[80px]">
-                  <button
-                    disabled={!(isValid && dirty) || isSubmitting}
-                    type="submit"
-                    className={`submit-btn float-right cursor-pointer opacity-50 ${
-                      isValid && dirty ? "opacity-100" : ""
-                    }`}
-                  >
-                    დავალების შექმნა
-                  </button>
-                  {errors.taskNotCreated && (
-                    <div className="text-red-500 mt-4 w-full float-left text-right">
-                      {errors.taskNotCreated}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </main>
-          </form>
-        );
-      }}
-    </Formik>
+              </main>
+            </form>
+          );
+        }}
+      </Formik>
+    </>
   );
 }

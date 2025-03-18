@@ -19,8 +19,12 @@ export default function FiltrationDropdown({
 
   return (
     <div className="absolute w-[688px] h-auto left-[0px] top-[42px] bg-transparent group-hover:block hidden cursor-auto">
-      <div className="text-[#212529] mt-[8px] w-full h-full bg-[#ffffff] border-[1px] border-[#8338EC] rounded-[10px] px-[30px] py-[40px]">
-        {data.length > 0 ? (
+      <div
+        className={`text-[#212529] mt-[8px] w-full h-full bg-[#ffffff] border-[1px] border-[#8338EC] rounded-[10px] px-[30px] py-[40px] ${
+          data.length > 0 ? "block" : "hidden"
+        }`}
+      >
+        {data.length > 0 &&
           data.map((item) => (
             <div
               key={item.id}
@@ -33,14 +37,15 @@ export default function FiltrationDropdown({
                 onChange={() => handleCheckboxChange(item.id)}
                 className="custom-checkbox"
               />
-              <label htmlFor={item.id} className="text-[16px] text-[#212529]">
+              <label
+                htmlFor={`${item.id}-${item.name}`}
+                className="text-[16px] text-[#212529] cursor-pointer"
+              >
                 {item.name}
+                {item.surname && ` ${item.surname}`}
               </label>
             </div>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+          ))}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import { CommentsIndicatorSVG } from "../../../assets/svg/comments-indicator";
 import { MediumPriorityIndicatorSVG } from "../../../assets/svg/medium-priority-indicator";
-import employee_img from "../../../assets/images/employee-test-img.jpeg";
 import { shortenDepartmentName } from "../../../helpers/shorten-dep-name";
 import { HighPriorityIndicatorSVG } from "../../../assets/svg/high-priority-indicator";
 import { LowPriorityIndicatorSVG } from "../../../assets/svg/low-priority-indicator";
@@ -79,7 +78,7 @@ export default function TaskCart({ task }) {
         <div className="w-full h-[31px] flex justify-between mt-[28px]">
           <figure className="object-cover">
             <img
-              src={employee_img}
+              src={task.employee.avatar}
               alt="employee-img"
               className="rounded-full object-cover w-[31px] h-[31px]"
             />

@@ -1,5 +1,6 @@
 import arrow_img from "../../../assets/images/arrow-down.png";
 import { useState, useEffect } from "react";
+import add_employee_img from "../../../assets/images/for-select-add-employee.png";
 
 export default function CustomSelectEmployee({
   options,
@@ -8,6 +9,7 @@ export default function CustomSelectEmployee({
   isOpenEmployeeOptions,
   setIsOpenEmployeeOptions,
   disabled,
+  modalOpener,
 }) {
   const [selectedValue, setSelectedValue] = useState(value);
 
@@ -35,8 +37,6 @@ export default function CustomSelectEmployee({
       );
     }
   };
-
-  // console.log(disabled);
 
   const selectedOption = options.find((option) => option.id === selectedValue);
 
@@ -78,6 +78,18 @@ export default function CustomSelectEmployee({
       {/* DROPDOWN */}
       {isOpenEmployeeOptions && !disabled && options.length > 0 && (
         <ul className="custom-select-options">
+          <li className="custom-select-option" onClick={modalOpener}>
+            <figure>
+              <img
+                src={add_employee_img}
+                alt="employee-avatar"
+                className="size-[18px] rounded-full object-cover"
+              />
+            </figure>
+            <span className="font-[400] text-[#8338EC]">
+              დაამატე თანამშრომელი
+            </span>
+          </li>
           {options.map((option) => (
             <li
               key={option.id}
